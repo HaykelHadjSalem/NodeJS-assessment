@@ -5,6 +5,7 @@ const db = require('./db/db')
 var cors = require('cors')
 const swaggerDocs = require('./utils/swagger')
 const pages = require('./routes/pages')
+require('dotenv').config()
 //use express static folder
 app.use(express.static("./public"))
 app.use(
@@ -24,6 +25,6 @@ app.use('/page', pages)
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-console.log(`Server is running at port ${PORT}`)
+console.log(`Server is running at port ${PORT} on ${process.env.HOST}`)
 swaggerDocs(app, PORT)
 })
