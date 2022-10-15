@@ -15,7 +15,7 @@ let getAllPages = async(req, res) => {
 
 const createPage = async(req, res) => {
     try{
-        let {ownerId, pageOwnerId = +ownerId} = req.body;
+        let {pageOwnerId} = req.body;
         let createdPage = await pages.create({pageOwnerId});
         return responseHandler.makeResponseData(res, 200, 'success', createdPage);
         }catch(err){
