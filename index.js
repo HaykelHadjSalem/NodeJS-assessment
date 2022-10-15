@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyparser = require('body-parser')
-
+const db = require('./db/db')
 var cors = require('cors')
 const swaggerDocs = require('./utils/swagger')
 const pages = require('./routes/pages')

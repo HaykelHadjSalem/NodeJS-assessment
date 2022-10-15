@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-
+const {getAllPages} = require('../controller/page')
 /**
  * @openapi
- * /auth/captcha:
+ * /page/{id}:
  *   get:
  *     tags:
- *     - "auth"
+ *     - "page"
  *     summary: get random captcha .
  *     description: return captcha to user to allow authentication action <br> without access_token
  *     produces:
@@ -17,8 +17,12 @@ const router = express.Router();
  *       "500":
  *          description: code,<br>error:"error"
  */
- router.get('/captcha', (req,res)=>{
+ router.get('/:id', (req,res)=>{
     res.send({mama:5656})
  })
+
+
+ router.get('/',getAllPages)
+
 
  module.exports = router
