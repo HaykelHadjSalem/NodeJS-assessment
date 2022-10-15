@@ -40,7 +40,7 @@ const {getAllPages,createPage} = require('../controller/page')
  *           schema:      # Request body contents
  *             type: object
  *             properties:
- *               pageOwnerId:
+ *               owner_id:
  *                 type: integer
  *     responses:
  *       "200":
