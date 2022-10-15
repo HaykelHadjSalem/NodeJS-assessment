@@ -17,7 +17,6 @@ sequelize
     .catch(err => {
         console.error('Unable to connect to the database:', err);
     });
-// sequelize.sync();
 
 
 const db = {}
@@ -27,6 +26,7 @@ db.sequelize = sequelize
 
  db.pages = require('../models/pageSchema.js')(sequelize, DataTypes);
  db.rows = require('../models/rows.js')(sequelize, DataTypes);
+ db.owner = require('../models/pageOwner.js')(sequelize, DataTypes);
 
 db.sequelize.sync({ force: false })
 .then(() => {
