@@ -10,6 +10,7 @@ const options = {
         description : "Welcome to Foleon assessment endpoints",
         customCss: '.swagger-ui .topbar { display: none }',
       },
+      host: process.env.BASEURLLOCAL,
       components: {
         securitySchemas: {
           bearerAuth: {
@@ -21,9 +22,9 @@ const options = {
       },
       security: [
         {
-          bearerAuth: [],
+            bearerAuth: [],
         },
-      ],
+    ],
     },
     apis: ['./routes/*.js'],
   };
@@ -35,7 +36,7 @@ function swaggerDocs(app, port) {
   // Swagger page
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-  // Docs in JSON format
+  //Docs in JSON format
   app.get("/docs.json", (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.send(swaggerSpec);

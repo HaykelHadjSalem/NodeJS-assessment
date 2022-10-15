@@ -16,6 +16,7 @@ sequelize
     })
     .catch(err => {
         console.error('Unable to connect to the database:', err);
+        process.exit(1);
     });
 
 
@@ -32,5 +33,14 @@ db.sequelize.sync({ force: false })
 .then(() => {
     console.log('yes re-sync done!')
 })
+
+db.owner.hasMany(db.pages, {
+    foreignKey: 'owner_id'
+})
+
+db.pages.belongsTo(db.owner, {
+    foreignKey: 'owner_id'
+})
+
 
 module.exports = db;

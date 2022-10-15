@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const {tokenSecret, expireToken} = require('/../config.js')
+const config= require('./../config.js')
 const { responseHandler } = require('../helpers/response-handler')
 
 module.exports.verifyAuth = (req, res, next) => {
@@ -8,12 +8,14 @@ module.exports.verifyAuth = (req, res, next) => {
     if (!token) {
         return responseHandler.makeResponseError(res, 401, 'token required')
     }
-    jwt.verify(token, tokenSecret, async (err, user) => {
+    jwt.verify(token, process.env.TOKEN_SECRET, async (err, user) => {
         if (err) return responseHandler.makeResponseError(res, 500, err.message ? err.message : err.error);
         req.user = user
         next()
     })
 }
 
-exports.generateAccessToken = user =>
-    jwt.sign(user, tokenSecret, { expiresIn: expireToken })
+exports.generateAccessToken = user => 
+     jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: process.env.EXPIRE_TOKEN })
+
+    

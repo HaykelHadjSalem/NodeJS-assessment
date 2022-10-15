@@ -5,6 +5,7 @@ const db = require('./db/db')
 var cors = require('cors')
 const swaggerDocs = require('./utils/swagger')
 const pages = require('./routes/pages')
+const auth = require('./routes/auth.routes')
 require('dotenv').config()
 //use express static folder
 app.use(express.static("./public"))
@@ -18,6 +19,8 @@ app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({
     extended: true
 }))
+
+app.use('/auth', auth)
 app.use('/page', pages)
 
 
