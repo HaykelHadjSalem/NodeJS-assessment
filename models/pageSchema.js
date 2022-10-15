@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         Page.hasMany(models.Row, {
           foreignKey: 'pageId',
         })
+
+        Page.belongsTo(models.PageOwner, {
+            foreignKey: 'PageOwnerId',
+          })
 }
     };
     Page.init({}, {
