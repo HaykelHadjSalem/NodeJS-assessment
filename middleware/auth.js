@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const {tokenSecret} = require('/../config.js')
+const {tokenSecret, expireToken} = require('/../config.js')
 const { responseHandler } = require('../helpers/response-handler')
 
 module.exports.verifyAuth = (req, res, next) => {
@@ -14,3 +14,6 @@ module.exports.verifyAuth = (req, res, next) => {
         next()
     })
 }
+
+exports.generateAccessToken = user =>
+    jwt.sign(user, tokenSecret, { expiresIn: expireToken })

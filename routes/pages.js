@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {getAllPages} = require('../controller/page')
+const {getAllPages,createPage} = require('../controller/page')
+
 /**
- * @openapi
+ * @swagger
  * /page/{id}:
  *   get:
  *     tags:
@@ -23,6 +24,34 @@ const {getAllPages} = require('../controller/page')
 
 
  router.get('/',getAllPages)
+
+
+/**
+ * @swagger
+ * /page/create:
+ *   post:
+ *     tags:
+ *     - "page"
+ *     summary: create page.
+ *     description:  Create new  page from user <br> with access_token.
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:      # Request body contents
+ *             type: object
+ *             properties:
+ *               pageOwnerId:
+ *                 type: integer
+ *     responses:
+ *       "200":
+ *          description: code,<br>message:"success"
+ *       "401":
+ *          description: code,<br>error:"unauthorized"
+ *       "500":
+ *          description: error:"error"
+ */
+
+ router.post('/create',createPage)
 
 
  module.exports = router
