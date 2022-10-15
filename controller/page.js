@@ -3,7 +3,7 @@ const {pages}  = require('../db/db.js')
 const { responseHandler } = require('../helpers/response-handler');
 
 
-
+//controller to get all pages from db
 let getAllPages = async(req, res) => {
     try{
     const allPages = await pages.findAll();
@@ -13,6 +13,7 @@ let getAllPages = async(req, res) => {
     }  
 }
 
+//create a page by a user
 const createPage = async(req, res) => {
     try{
         let {owner_id} = req.body;

@@ -14,9 +14,10 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'pageId',
         })
 
-        Page.belongsTo(models.PageOwner, {
-            foreignKey: 'PageOwnerId',
-          })
+        // Page.belongsTo(models.PageOwner, {
+        //     foreignKey: 'PageOwnerOd',
+        //     onDelete: 'CASCADE'
+        //   })
 }
     };
     Page.init({}, {

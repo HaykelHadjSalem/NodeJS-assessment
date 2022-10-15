@@ -28,8 +28,9 @@ db.sequelize = sequelize
  db.pages = require('../models/pageSchema.js')(sequelize, DataTypes);
  db.rows = require('../models/rows.js')(sequelize, DataTypes);
  db.owner = require('../models/pageOwner.js')(sequelize, DataTypes);
+ db.columns = require('../models/columnMondel.js')(sequelize, DataTypes);
 
-db.sequelize.sync({ force: false })
+ db.sequelize.sync({ force: false })
 .then(() => {
     console.log('yes re-sync done!')
 })
@@ -42,5 +43,20 @@ db.pages.belongsTo(db.owner, {
     foreignKey: 'owner_id'
 })
 
+db.pages.hasMany(db.rows, {
+    foreignKey: 'pageId'
+})
+
+db.rows.belongsTo(db.pages, {
+    foreignKey: 'pageId'
+})
+
+db.rows.hasMany(db.columns, {
+    foreignKey: 'rowId'
+})
+
+db.columns.belongsTo(db.rows, {
+    foreignKey: 'rowId'
+})
 
 module.exports = db;
