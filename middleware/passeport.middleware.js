@@ -26,9 +26,8 @@ passport.use(
             const hashPassword = await bcrypt.hash(password, salt);
             let createdUser = await owner.create({email:username,password:hashPassword});
             let token = generateAccessToken(createdUser.toJSON())
-
             return done(null, {
-                id: createdUser._id,
+                userId: createdUser.id,
                 token,
             })
         }
@@ -64,3 +63,64 @@ exports.emailSignup = async (req, res, next) => {
  */
 
 
+/*
+ * begin signin with email and password
+ */
+
+const signinWithEmail = async (
+    req,
+    username,
+    password,
+    done,
+) => {
+    let user = await owner.findOne({
+        where: { email: username },
+      })
+      if(!user) return done(null, false, { message: 'user not found'})
+      const validPass = await bcrypt.compare(password, user.password);
+      if (!validPass) return done(null, false, { message: 'invalid password'})
+      let token = generateAccessToken(user.toJSON())
+      return done(null, {
+        userId: user.id,
+        token,
+    })
+}
+passport.use(
+    'signinEmailStrategy',
+    new LocalStrategy(
+        { passReqToCallback: true },
+        async (req, username, password, done) => {
+            await signinWithEmail(req, username, password, done)
+        }
+    )
+)
+exports.emailConnection = async (req, res, next) => {
+    passport.authenticate(
+        'signinEmailStrategy',
+        { session: false },
+        (err, user, info) => {
+            if (err) {
+                return responseHandler.makeResponseError(res, 401, err)
+            }
+            if (!user) {
+                return responseHandler.makeResponseError(res, 401, info)
+            }
+            req.logIn(user, function (err) {
+                var param = {
+                    access_token: user.token,
+                    id: user.id,
+                    ...user.message && {message: user.message} 
+                }
+                return responseHandler.makeResponseData(
+                    res,
+                    200,
+                    'success',
+                    param
+                )
+            })
+        }
+    )(req, res, next)
+}
+/*
+ * end signin with email and password
+ */
